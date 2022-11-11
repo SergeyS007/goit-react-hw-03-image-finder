@@ -23,20 +23,23 @@ class App extends Component {
     const prevImageString = prevState.imageString;
     const nextImageString = this.state.imageString;
     const { page } = this.state;
+
     if (prevImageString !== nextImageString) {
       console.log('изменился запрос');
       this.setState({ imageList: [] });
-      this.getImages();
-      this.setState({ loading: true });
     }
-    if (prevState.page !== page) {
+
+    if (prevImageString !== nextImageString || prevState.page !== page) {
       this.getImages();
-      this.setState({ loading: true });
     }
   }
 
   handleInputSubmit = imageString => {
+    this.setState({ page: 1 });
     this.setState({ imageString });
+    this.setState(prevState => ({
+      isShown: !prevState.isShown,
+    }));
   };
 
   getImages = () => {
@@ -83,7 +86,10 @@ class App extends Component {
     return (
       <div className={css.App}>
         <Searchbar onSubmit={this.handleInputSubmit} />
-        <ImageGallery array={imageList} toggleModal={this.toggleModal} />
+        {imageList.length > 0 && (
+          <ImageGallery array={imageList} toggleModal={this.toggleModal} />
+        )}
+
         {isLoading && (
           <span className={css.ThreeDots}>
             <ThreeDots
@@ -97,7 +103,9 @@ class App extends Component {
             />
           </span>
         )}
-        {isShown && <Button clickHandler={this.loadMore} />}
+        {isShown && imageList.length >= 12 && (
+          <Button clickHandler={this.loadMore} />
+        )}
         {showModal && (
           <Modal onClickModal={this.toggleModal} largeFoto={bigImage} />
         )}

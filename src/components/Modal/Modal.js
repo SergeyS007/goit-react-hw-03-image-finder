@@ -3,6 +3,11 @@ import PropTypes from 'prop-types';
 import css from 'components/Modal/Modal.module.css';
 
 class Modal extends Component {
+  static propTypes = {
+    onClickModal: PropTypes.func.isRequired,
+    largeFoto: PropTypes.string.isRequired,
+  };
+
   componentDidMount() {
     window.addEventListener('keydown', this.onCloseByEscape);
   }
@@ -31,10 +36,5 @@ class Modal extends Component {
     );
   }
 }
-
-Modal.propTypes = {
-  onClickModal: PropTypes.func.isRequired,
-  largeFoto: PropTypes.string.isRequired,
-};
 
 export default Modal;

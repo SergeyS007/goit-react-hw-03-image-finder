@@ -3,6 +3,10 @@ import PropTypes from 'prop-types';
 import css from 'components/Searchbar/Searchbar.module.css';
 
 class Searchbar extends Component {
+  static propTypes = {
+    onSubmit: PropTypes.func.isRequired,
+  };
+
   state = {
     imageString: '',
   };
@@ -16,9 +20,9 @@ class Searchbar extends Component {
 
     if (this.state.imageString.trim() === '') {
       alert('Заполните поле поиска');
-      return;
     }
-    this.props.onSubmit(this.state.imageString);
+
+    this.props.onSubmit(this.state.imageString, this.state.isShown);
     this.setState({ imageString: '' });
   };
 
@@ -43,9 +47,5 @@ class Searchbar extends Component {
     );
   }
 }
-
-Searchbar.propTypes = {
-  onSubmit: PropTypes.func.isRequired,
-};
 
 export default Searchbar;
